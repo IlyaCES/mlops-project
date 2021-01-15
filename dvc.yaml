@@ -1,0 +1,24 @@
+stages:
+  preprocess:
+    cmd: python pipeline/preprocess.py
+    deps:
+    - dataset/data.csv
+    - pipeline/preprocess.py
+    outs:
+    - dataset/data_test.csv
+    - dataset/data_train.csv
+  train:
+    cmd: python pipeline/train.py
+    deps:
+    - pipeline/train.py
+    - dataset/data_train.csv
+  val:
+    cmd: python pipeline/val.py
+    deps:
+    - pipeline/val.py
+    - dataset/data_test.csv
+    outs:
+    - model/confusion_matrix.png
+    metrics:
+    - model/metrics.json:
+        cache: false
